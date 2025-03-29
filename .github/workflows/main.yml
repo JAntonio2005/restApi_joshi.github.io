@@ -14,8 +14,18 @@ jobs:
           node-version: 20
       - run: echo 'hello world ...'
       - run: ls -la
-      #- run: docker build -t postgres/pg-restapi .
-      #- run: docker images
+
       - run: touch .env
       - run: echo  'DEV_DATABASE_URL=${{secrets.PG_CONN}}' >> .env
       - run: cat .env
+      - run: docker build -t postgres/pg-restapi .
+      - run: docker images
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run:  docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
+      - name: docker push
+        run:  docker push ${{ secrets.DOCKER_USER}}/pg-restapi:${{github.sha}}   
+
