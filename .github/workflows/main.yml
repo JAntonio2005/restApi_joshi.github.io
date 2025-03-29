@@ -17,5 +17,5 @@ jobs:
       #- run: docker build -t postgres/pg-restapi .
       #- run: docker images
       - run: touch .env
-      - run: echo  'DEV_DATABASE_URL=postgres://postgres:piplorexplurex@localhost:5432/restapi{{}}' >> .env
+      - run: echo  'DEV_DATABASE_URL=${{secrets.PG_CONN}}' >> .env
       - run: cat .env
