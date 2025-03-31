@@ -1,5 +1,5 @@
 name: Deploy postgresql api
-#werwrewe
+#werwrewead
 on:
   push:
     branches: ["master"]
