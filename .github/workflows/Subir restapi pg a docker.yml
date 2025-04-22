@@ -39,6 +39,3 @@ jobs:
       - name: docker push
         run: docker push ${{ secrets.DOCKER_USER}}/pgbackendapi:${{github.sha}}
 
-      # Probar que la API está corriendo (opcional)
-      - run: curl localhost:8080
-
