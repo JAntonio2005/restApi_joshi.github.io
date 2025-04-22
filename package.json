@@ -4,6 +4,7 @@
   "description": "postgres rest-api",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",  
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -20,3 +21,4 @@
     "@types/dotenv": "^6.1.1"
   }
 }
+
