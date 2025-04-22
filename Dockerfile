@@ -1,20 +1,20 @@
-# Usar la imagen oficial de Node.js
-FROM node:20
+# Usar la imagen oficial de Node.js para evitar instalarlo manualmente
+FROM node:20-bullseye
 
 # Establecer el directorio de trabajo en el contenedor
 WORKDIR /usr/src/app
 
-# Copiar el archivo package.json y package-lock.json
+# Copiar solo los archivos de configuración de dependencias primero
 COPY package*.json ./
 
-# Instalar las dependencias de Node.js
+# Instalar dependencias
 RUN npm install
 
 # Copiar el resto de los archivos del proyecto
 COPY . .
 
 # Exponer el puerto que usará tu aplicación
-EXPOSE 3000
+EXPOSE 8080
 
-# Definir el comando para iniciar la aplicación
-CMD ["npm", "start"]
+# Comando para ejecutar la aplicación
+CMD ["node", "index.js"]
