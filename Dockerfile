@@ -1,15 +1,20 @@
-FROM debian:bullseye
-RUN apt-get update
+# Usar la imagen oficial de Node.js
+FROM node:20
 
-RUN apt-get install -y curl make g++
+# Establecer el directorio de trabajo en el contenedor
+WORKDIR /usr/src/app
 
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
-RUN apt-get install -y nodejs
+# Copiar el archivo package.json y package-lock.json
+COPY package*.json ./
 
-ADD . /
+# Instalar las dependencias de Node.js
 RUN npm install
 
-EXPOSE 8080
+# Copiar el resto de los archivos del proyecto
+COPY . .
 
-CMD  ["node", "index.js"]
+# Exponer el puerto que usará tu aplicación
+EXPOSE 3000
 
+# Definir el comando para iniciar la aplicación
+CMD ["npm", "start"]
