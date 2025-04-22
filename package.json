@@ -1,13 +1,13 @@
 {
   "name": "restapi",
   "version": "1.0.0",
-  "description": "postgres rest-api",
+  "description": "postgresql rest-api",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",  
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "joshi",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
