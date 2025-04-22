@@ -28,15 +28,15 @@ jobs:
     # Paso 4: Construir la imagen Docker
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USER }}/pgBackendApi:${{ github.sha }} .
+        docker build -t ${{ secrets.DOCKER_USER }}/pgbackendapi:${{ github.sha }} .
 
     # Paso 5: Subir la imagen Docker a Docker Hub
     - name: Push Docker image to Docker Hub
       run: |
-        docker push ${{ secrets.DOCKER_USER }}/pgBackendApi:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USER }}/pgbackendapi:${{ github.sha }}
 
     # Paso 6: (Opcional) Etiquetar la imagen como 'latest' y subirla
     - name: Tag and push latest
       run: |
-        docker tag ${{ secrets.DOCKER_USER }}/my-node-app:${{ github.sha }} ${{ secrets.DOCKER_USER }}/pgBackendApi:latest
-        docker push ${{ secrets.DOCKER_USER }}/pgBackendApi:latest
+        docker tag ${{ secrets.DOCKER_USER }}/pgbackendapi:${{ github.sha }} ${{ secrets.DOCKER_USER }}/pgbackendapi:latest
+        docker push ${{ secrets.DOCKER_USER }}/pgbackendapi:latest
