@@ -3,7 +3,7 @@ name: Subir restapi pg a docker
 on:
   push:
     branches:
-      - master  # Cambia 'main' si prefieres otra rama
+      - master  # Cambia 'main' si prefieres otra ramaasd
 
 jobs:
   build:
