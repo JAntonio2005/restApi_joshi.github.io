@@ -1,12 +1,13 @@
+const fs = require('fs');
 require('dotenv').config();
 const { Pool } = require('pg');
-const server = require('./server');
 
 // Configuración de la base de datos
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // Es necesario para conexiones seguras
+    rejectUnauthorized: false, // Asegúrate de que esta opción esté activada
+    ca: fs.readFileSync('path/to/aiven-ca-cert.pem').toString(), // Ruta al certificado CA de Aiven
   },
 });
 
