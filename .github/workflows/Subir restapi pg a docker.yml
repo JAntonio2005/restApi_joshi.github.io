@@ -1,0 +1,42 @@
+name: Subir restapi pg a docker
+
+on:
+  push:
+    branches:
+      - master  # Cambia 'main' si prefieres otra rama
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Paso 1: Hacer checkout del código
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Paso 2: Configuración de Docker Buildx (herramienta para crear imágenes Docker)
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    # Paso 3: Iniciar sesión en Docker Hub
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Paso 4: Construir la imagen Docker
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/pgBackendApi:${{ github.sha }} .
+
+    # Paso 5: Subir la imagen Docker a Docker Hub
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push ${{ secrets.DOCKER_USERNAME }}/pgBackendApi:${{ github.sha }}
+
+    # Paso 6: (Opcional) Etiquetar la imagen como 'latest' y subirla
+    - name: Tag and push latest
+      run: |
+        docker tag ${{ secrets.DOCKER_USERNAME }}/my-node-app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/pgBackendApi:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/pgBackendApi:latest
