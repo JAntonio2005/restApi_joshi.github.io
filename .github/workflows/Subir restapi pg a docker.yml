@@ -10,32 +10,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: echo 'hello world ..'
-      - run: ls -la
-      - run: touch .env
-      - run: echo 'DATABASE_URL=${{secrets.PG_CONN}}'  >> .env
+
+      - run: echo 'Creando archivo .env...'
+      - run: echo 'DEV_DATABASE_URL=${{ secrets.PG_CONN }}' >> .env
       - run: cat .env
 
-      # Install dependencies (descomentar si es necesario)
       - run: npm install
 
-      # Construcción de la imagen Docker
-      - run: docker build -t joseantonioortiz/pgbackendapi:${{github.sha}} .
+      - run: docker build -t ${{ secrets.DOCKER_USER }}/pgbackendapi:${{ github.sha }} .
 
-      # Ver las imágenes Docker creadas
-      - run: docker images
+      - name: Etiquetar imagen como latest (opcional pero útil)
+        run: docker tag ${{ secrets.DOCKER_USER }}/pgbackendapi:${{ github.sha }} ${{ secrets.DOCKER_USER }}/pgbackendapi:latest
 
-      # Iniciar sesión en Docker Hub
-      - name: docker login
+      - name: Login DockerHub
         env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        
-      # Subir la imagen a Docker Hub
-      - name: docker push
-        run: docker push ${{ secrets.DOCKER_USER}}/pgbackendapi:${{github.sha}}
 
+      - name: Push imagen con SHA
+        run: docker push ${{ secrets.DOCKER_USER }}/pgbackendapi:${{ github.sha }}
+
+      - name: Push imagen como latest
+        run: docker push ${{ secrets.DOCKER_USER }}/pgbackendapi:latest
