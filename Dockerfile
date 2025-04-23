@@ -1,18 +1,19 @@
-FROM debian:bullseye
+FROM node:20-slim
 
-RUN apt-get update
+# Crear carpeta de trabajo
+WORKDIR /app
 
-RUN apt-get install -y curl make g++
+# Copiar package.json y package-lock.json primero (optimiza cache)
+COPY package*.json ./
 
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - 
-
-RUN apt-get install -y nodejs
-
-ADD . /
-
+# Instalar dependencias
 RUN npm install
 
-EXPOSE 8080
+# Copiar el resto del código
+COPY . .
 
+# Exponer el puerto que Render usará
+EXPOSE 3000
+
+# Arrancar la app
 CMD ["node", "index.js"]
-
